@@ -1,0 +1,23 @@
+name: Audit
+
+on:
+  push
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build audit report
+        run: |
+          echo "tide-logger audit report" > audit-report.txt
+          echo "generated: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> audit-report.txt
+          echo "commits on default branch: see repository history" >> audit-report.txt
+
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-report
+          path: audit-report.txt
